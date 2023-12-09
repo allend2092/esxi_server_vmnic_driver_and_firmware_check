@@ -27,7 +27,7 @@ The `config.json` file should contain the following keys:
 - `password`: The password for vCenter Server access.
 
 ## Author
-[Your Name]
+Daryl Allen
 
 ## Note
 This script is intended for use in VMware environments for administrative and compatibility checking purposes. Ensure you have the necessary permissions to access and manage your VMware infrastructure.
