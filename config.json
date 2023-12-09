@@ -1,0 +1,5 @@
+{
+    "vCenterServer": "vCenter FQDN",
+    "username": "administrator@vsphere.local",
+    "password": "VMware1!"
+}
