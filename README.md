@@ -1,41 +1,33 @@
-# ESXi NIC Compatibility Automation Project
+# ESXi NIC Information and VMware HCL URL Generator
 
 ## Overview
-This project aims to automate the validation of Network Interface Card (NIC) drivers and firmware versions across a large VMware ESXi server infrastructure. The primary goal is to ensure that all NICs are compliant with VMware's Hardware Compatibility List (HCL), a requirement for maintaining support contracts with VMware.
+This PowerShell script, `check_nics.ps1`, is designed to gather detailed information about the network interface cards (NICs) on each ESXi host in a vCenter inventory. It retrieves hardware details such as vendor name, device name, vendor ID, device ID, subvendor ID, subdevice ID, driver information, and firmware version. Additionally, the script constructs VMware Hardware Compatibility List (HCL) URLs for each NIC to facilitate compatibility checks.
 
-## Implementation Plan
+## Features
+- Connects to a vCenter Server and iterates over each ESXi host.
+- Retrieves detailed information about each NIC on the ESXi hosts.
+- Converts hardware IDs to hexadecimal format for standard compatibility reference.
+- Generates a direct VMware HCL URL for each NIC based on its hardware IDs.
+- Handles hosts that are not responding or are otherwise inaccessible.
+- Outputs the information on the screen and exports it to a JSON file (`esxi_nic_driver_and_firmware_info.json`) for documentation and reporting purposes.
 
-### Data Collection
-- Initial data collection will be performed using the command `vmkchdev -l | grep vmnic` on each ESXi host.
-- This command outputs details such as Vendor ID (VID), Device ID (DID), Subsystem Vendor ID (SVID), and Subsystem ID (SSID).
-- Future plans include leveraging VMware PowerCLI and vCenter for data collection, which provides structured data and eliminates the need for text parsing.
+## Usage
+1. Update the `config.json` file with your vCenter Server details.
+2. Run the script using PowerShell with VMware PowerCLI installed.
+3. View the output on the screen and in the generated JSON file.
 
-### Hyperlink Generation
-- The collected data (VID, DID, SVID, SSID) will be used to construct a dynamic URL to query VMware's HCL.
-- Example URL format: `https://www.vmware.com/resources/compatibility/search.php?deviceCategory=io&details=1&releases=[RELEASES]&VID=[VID]&DID=[DID]&SVID=[SVID]&SSID=[SSID]&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc`
-- The URL will be dynamically updated with the relevant data for each NIC.
+## Prerequisites
+- VMware PowerCLI installed on the system where the script is executed.
+- Access to a vCenter Server with ESXi hosts.
 
-### Considerations
-- **Scripting**: Ensure robust scripting with error handling and data validation.
-- **Output Handling**: Develop methods to parse and interpret the HCL webpage content.
-- **Version Control**: Account for different ESXi versions and their respective compatibility requirements.
-- **Security and Access**: Adhere to organizational security policies and access controls.
-- **Testing**: Thoroughly test scripts in a controlled environment before production deployment.
-- **Documentation and Maintenance**: Maintain clear documentation and regular updates to the script.
+## Configuration File
+The `config.json` file should contain the following keys:
+- `vCenterServer`: The address of the vCenter Server.
+- `username`: The username for vCenter Server access.
+- `password`: The password for vCenter Server access.
 
-### Potential ChatGPT API Integration
-- **Query Assistance**: Utilize the API for interpreting results and providing recommendations.
-- **Report Generation**: Generate human-readable reports or summaries from the compatibility checks.
+## Author
+[Your Name]
 
-## Goals
-- Automate the process of validating NIC drivers and firmware against VMware's HCL.
-- Reduce manual effort and increase efficiency in large-scale virtualized environments.
-- Ensure compliance with VMware support contract requirements.
-
-## Future Scope
-- Expand automation to include other aspects of VMware infrastructure management.
-- Continuously improve and adapt the script to accommodate changes in VMware's environment and HCL.
-
----
-
-*This project is in the development phase and subject to changes and improvements.*
+## Note
+This script is intended for use in VMware environments for administrative and compatibility checking purposes. Ensure you have the necessary permissions to access and manage your VMware infrastructure.
